@@ -1,1 +1,4 @@
+
 https://stackoverflow.com/questions/58760712/how-to-fix-metro-bundler-process-exited-with-code-1/58760917#58760917?newreg=a204fa6522294329aaa67755f7ad530c
+
+https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
