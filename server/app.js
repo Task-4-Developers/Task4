@@ -92,6 +92,18 @@ app.get('/activities', (req, res) => {
 })
 
 
+app.post('/signin', (req, res) => {
+    User.findOne({ login: req.body.login }, (err, user) => {
+        if ((err) || (user == null)) {
+            const user = new User({ login: req.body.login, password: req.body.password, organizations: req.body.organizations, lastFetchTime: Date.now() })
+            user.save()
+            res.json({ accepted: true })
+        }
+        else {
+            res.json({ accepted: false })
+        }
+    })
+})
 
 
 
