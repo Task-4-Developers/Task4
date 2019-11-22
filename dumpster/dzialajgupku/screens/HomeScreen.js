@@ -22,7 +22,7 @@ export default function HomeScreen() {
           <Image
             source={
               __DEV__
-                ? require('../assets/images/robot-dev.png')
+                ? require('../assets/images/morda.jpg')
                 : require('../assets/images/robot-prod.png')
             }
             style={styles.welcomeImage}
@@ -36,7 +36,7 @@ export default function HomeScreen() {
 
           <View
             style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
+            <MonoText>Twoja stara</MonoText>
           </View>
 
           <Text style={styles.getStartedText}>
