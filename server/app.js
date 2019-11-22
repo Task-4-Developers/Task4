@@ -75,7 +75,17 @@ app.post('/signin', (req, res) => {
     })
 })
 
-
+app.get('/eventsForActivities', (req, res) => {
+    Event.find( {activityID : req.body.id} , (err, events) => {
+        if ((err) || (events == null)) 
+        {
+            res.json({ events : [] })       
+        } 
+        else{
+            res.json({ events : events })     
+        }
+    })
+})
 
 
 
