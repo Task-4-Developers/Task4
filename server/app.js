@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser')
 
+
 const app = express();
 const port = 8080;
 
@@ -14,7 +15,7 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0-umm0g.mongodb.net/Task4", {
 
 
 const userSchema = {
-    id: Number,
+    id: mongoose.Schema.Types.ObjectId,
     login: String,
     password: String,
     organizations: [String],
@@ -22,7 +23,7 @@ const userSchema = {
 }
 
 const eventSchema = {
-    id: Number,
+    id: mongoose.Schema.Types.ObjectId,
     eventMadeTime: Date,
     startTime: Date,
     endTime: Date,
@@ -33,7 +34,7 @@ const eventSchema = {
 }
 
 const activitySchema = {
-    id: Number,
+    id: mongoose.Schema.Types.ObjectId,
     name: String,
     type: String,
     slots: Number,
@@ -59,6 +60,35 @@ app.post('/login', (req, res) => {
                 res.json({ accepted: false })
         }
     })
+})
+
+app.get('/activities', (req, res) => {
+    User.findOne({ login: req.body.login }, (err, user) => {
+        if ((err) || (user == null)) res.json({ succesful: false })
+        else {
+
+            let activityList = [];
+            user.organizations.forEach(org => {
+
+                //res.send(org);
+
+                Activity.find({ organization: org }, (err, act) => {
+
+                    activityList.push(act);
+                    res.json(activityList)
+                })
+
+            });
+
+            //res.json(activityList)
+        }
+    })
+
+
+
+
+
+
 })
 
 
