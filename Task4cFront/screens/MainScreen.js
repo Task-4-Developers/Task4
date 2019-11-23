@@ -16,37 +16,6 @@ function chunk(arr, len) {
   }
   return chunks;
 }
-<<<<<<< HEAD
-
-const activitiesFromDB= [
-  {
-    id: 0,
-    type: "morda.jpg",
-    randomStatistics: "so many chairs",
-  },
-  {
-    id: 1,
-    type: "piesa.png",
-    randomStatistics: "so many things",
-  },
-  {
-    id: 2,
-    type: "alien.png",
-    randomStatistics: "so many elephants",
-  },
-  {
-    id: 3,
-    type: "pinezka.jpg",
-    randomStatistics: "just the two of us",
-  },
-  {
-    id: 4,
-    type: "checked.jpg",
-    randomStatistics: "crazy funk",
-  }, 
-] 
-=======
->>>>>>> 8e010360e21534b38ae4bf17a09c72503eee2eea
 
 // async fetchActivities() {
 //   await fetch("https://task44.herokuapp.com/login", {
@@ -66,7 +35,7 @@ const activitiesFromDB= [
 //   });
 // }
 
-let activitiesFromDB= [] 
+// let activitiesFromDB= []  
 
 const allActivities = [
   {
@@ -97,7 +66,7 @@ const allActivities = [
     id: 0,
     nazwa: "Papieros",
     imageUrl: require("../assets/images/" + "fajki" + ".png"),
-    randomStatistics: "crazy funk",
+    randomStatistics: "6",
   },
 ]
 
@@ -155,8 +124,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 100,
     height: 100,
-    textAlign: "center",    // to koniecznie potem wyjebac
-    textAlignVertical: "center",
     // resizeMode: "stretch", //doesn't work
     padding: 2,
   },
