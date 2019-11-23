@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } f
 import Layout from "./Layout";
 import Activity from "../components/Activity";
 
+const login = "admin";
+
 
 function chunk(arr, len) {
   var chunks = [],
@@ -14,6 +16,7 @@ function chunk(arr, len) {
   }
   return chunks;
 }
+
 const activitiesFromDB= [
   {
     id: 0,
@@ -41,6 +44,26 @@ const activitiesFromDB= [
     randomStatistics: "crazy funk",
   }, 
 ] 
+
+// async fetchActivities() {
+//   await fetch("https://task44.herokuapp.com/login", {
+//     method: "POST",
+//     body: JSON.stringify({
+//       login: login
+//     })
+//   }).then( (response) => response.json())
+//   .then((responseJson) => {
+//     // setValid(responseJson.successful);
+//     // setError(!(responseJson.successful));
+//     if(responseJson) {
+//       //RETURN LOGIN TO MAIN
+//       props.navigation.navigate('Main');
+//     }
+//     else (setError(!(responseJson.successful)));
+//   });
+// }
+
+let activitiesFromDB= [] 
 
 const allActivities = [
   {
@@ -81,7 +104,27 @@ for (var i=0;i<activitiesFromDB.length;i++){
 // var chunkedActivities = chunk(activitiesFromDB, 2) // [[{ }, { }], [{ }, { }]]
 
 var chunkedActivities = chunk(allActivities, 2) // [[{ }, { }], [{ }, { }]]
+
+
+
 function MainScreen(props) {
+  const [activites, setActivites] = useState([]);
+
+  setInterval(() =>{
+    fetch("https://task44.herokuapp.com/activities", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({
+        login: login,
+      })
+    }).then( (response) => response.json())
+    .then((responseJson) => {
+      setActivities(responseJson.activities)
+    })
+  }, 5000);
+
   return (
     <Layout>
       <ScrollView style={styles.scrollView}>
@@ -95,7 +138,6 @@ function MainScreen(props) {
           </View>
         ))}
       </ScrollView>
-      <Button title="QR Code Scanner" onPress={() => props.navigation.navigate('QrCode')}/>
     </Layout>
   );
 }

@@ -8,23 +8,27 @@ import Layout from './Layout';
 () => props.navigation.navigate('Main')
 } /> */}
 
-function fetchLogin(login){
-  fetch("https://task44.herokuapp.com/login", {
-    method: "POST",
-    body: JSON.stringify({
-      login: login
-    })
-  }).then( (response) => response.json())
-  .then((responseJson) => {
-    // setValid(responseJson.successful);
-    // setError(!(responseJson.successful));
-    if(responseJson) {
-      //RETURN LOGIN TO MAIN
-      props.navigation.navigate('Main');
-    }
-    else (setError(!(responseJson.successful)));
-  });
-}
+// function fetchLogin(login){
+//   fetch("https://task44.herokuapp.com/login", {
+//     method: "POST",
+//     headers: {
+//       'Content-Type': 'application/json;charset=utf-8'
+//     },
+//     body: JSON.stringify({
+//       login: login,
+//       password
+//     })
+//   }).then( (response) => response.json())
+//   .then((responseJson) => {
+//     // setValid(responseJson.successful);
+//     // setError(!(responseJson.successful));
+//     if(responseJson) {
+//       //RETURN LOGIN TO MAIN
+//       props.navigation.navigate('Main');
+//     }
+//     else (setError(!(responseJson.successful)));
+//   });
+// }
 
 export default function LoginScreen(props) {
     const [login, setLogin] = useState("");
