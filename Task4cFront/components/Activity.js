@@ -13,8 +13,8 @@ function Activity(props) {
         <TouchableOpacity key={props.activity.id} style={styles.singleActivity}
             onPress={() => props.onTouchFunction(props.whereToGo, { activityId: props.activity.id, })}>
             <Image style={styles.singleActivityImage} source={props.activity.imageUrl} />
-            <Text>This is {props.activity.id} </Text>
-            <Text>It has: {props.activity.randomStatistics} </Text>
+            <Text>{props.activity.nazwa} </Text>
+            <Text>Wolne sloty: {props.activity.randomStatistics} </Text>
         </TouchableOpacity>
     )
 };

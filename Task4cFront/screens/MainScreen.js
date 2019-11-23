@@ -16,6 +16,7 @@ function chunk(arr, len) {
   }
   return chunks;
 }
+<<<<<<< HEAD
 
 const activitiesFromDB= [
   {
@@ -44,6 +45,8 @@ const activitiesFromDB= [
     randomStatistics: "crazy funk",
   }, 
 ] 
+=======
+>>>>>>> 8e010360e21534b38ae4bf17a09c72503eee2eea
 
 // async fetchActivities() {
 //   await fetch("https://task44.herokuapp.com/login", {
@@ -68,40 +71,36 @@ let activitiesFromDB= []
 const allActivities = [
   {
     id: 0,
-    imageUrl: require("../assets/images/" + "morda" + ".jpg"),
-    randomStatistics: "so many chairs",
+    nazwa: "Pilkarzyki",
+    imageUrl: require("../assets/images/" + "pilkarzyki" + ".png"),
+    randomStatistics: "2",
   },
   {
-    id: 1,
-    imageUrl: require("../assets/images/" + "piesa" + ".png"),
-    randomStatistics: "so many things",
+    id: 0,
+    nazwa: "FIFA",
+    imageUrl: require("../assets/images/" + "noga" + ".png"),
+    randomStatistics: "1",
   },
   {
-    id: 2,
-    imageUrl: require("../assets/images/" + "alien" + ".png"),
-    randomStatistics: "so many elephants",
+    id: 0,
+    nazwa: "Piwo",
+    imageUrl: require("../assets/images/" + "piwo" + ".png"),
+    randomStatistics: "0",
   },
   {
-    id: 3,
-    imageUrl: require("../assets/images/" + "pinezka" + ".jpg"),
-    randomStatistics: "just the two of us",
+    id: 0,
+    nazwa: "Kawa",
+    imageUrl: require("../assets/images/" + "kawa" + ".png"),
+    randomStatistics: "4",
   },
   {
-    id: 4,
-    imageUrl: require("../assets/images/" + "checked" + ".jpg"),
+    id: 0,
+    nazwa: "Papieros",
+    imageUrl: require("../assets/images/" + "fajki" + ".png"),
     randomStatistics: "crazy funk",
   },
 ]
 
-for (var i=0;i<activitiesFromDB.length;i++){
-  // console.log("../assets/images/"+activitiesFromDB[i].type) 
-  // import ("../assets/images/"+activitiesFromDB[i].type).then((loadedImageUrl) => {
-  //   newAllActivities[i].imageUrl=loadedImageUrl;
-  // });
-  // newAllActivities[i].imageUrl=require("../assets/images/");
-  delete activitiesFromDB[i].type;
-} 
-// var chunkedActivities = chunk(activitiesFromDB, 2) // [[{ }, { }], [{ }, { }]]
 
 var chunkedActivities = chunk(allActivities, 2) // [[{ }, { }], [{ }, { }]]
 
