@@ -1,19 +1,23 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>I think this thing works? i dont think so wrr</Text>
-    </View>
-  );
-}
+import {createAppContainer} from 'react-navigation'
+import {createStackNavigator} from 'react-navigation-stack'
+import LoginScreen from './screens/LoginScreen';
+import MainScreen from './screens/MainScreen';
+import EventScreen from './screens/EventScreen';
+import QRScreen from './screens/QRScreen';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const RootStack = createStackNavigator(
+  {
+    Login: {screen: LoginScreen},
+    Main: {screen: MainScreen},
+    Event: {screen: EventScreen},
+    QrCode: {screen: QRScreen}
   },
-});
+  {
+    initialRouteName: "Login",
+  },
+);
+
+export default createAppContainer(RootStack);
