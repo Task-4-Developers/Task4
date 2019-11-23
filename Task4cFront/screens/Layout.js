@@ -10,11 +10,9 @@ for (i = 0; i < numberOfActivities; i++) {
 function Layout(props) {
   return (
     <View style={styles.everything}>
-      <Text style={styles.headerStyling}> Welcome to my world</Text>
+      {/* <Text style={styles.headerStyling}> Welcome to my world</Text> */}
 
       {props.children}
-
-      <Text style={styles.headerStyling} >Hello there</Text>
     </View>
   );
 }
@@ -27,6 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 20,
     flexDirection: 'column',
+    marginBottom: 20,
   },
   headerStyling: {
     marginBottom: 10,
