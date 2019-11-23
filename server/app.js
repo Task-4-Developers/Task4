@@ -192,6 +192,29 @@ app.post('/events', (req, res) => {
 
 })
 
+// app.get('/Updates', (req, res) => {
+//     let result = json;
+//     Event.find( {eventMadeTime: { $gt: User.findOne({login:req.body.login}).lastFetchTime}} , (err, events) => {
+//         if ((err) || (events == null)) 
+//         {
+//             result.push({ events : [] })       
+//         } 
+//         else{
+//             result.push({ events : events })     
+//         }
+//     })
+//     Activity.find( {activityId: req.body.activityId.ObjectId} , (err, events) => {
+//         if ((err) || (events == null)) 
+//         {
+//             result.push({ events : [] })
+//             res.json({ events : [] })       
+//         } 
+//         else{
+//             result.push({ events : [] })
+//             res.json({ events : events })     
+//         }
+//     })
+// })
 
 
 
