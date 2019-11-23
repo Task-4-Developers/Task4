@@ -15,7 +15,7 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0-umm0g.mongodb.net/Task4", {
 
 
 const userSchema = {
-    id: mongoose.Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
     login: String,
     password: String,
     organizations: [String],
@@ -23,18 +23,18 @@ const userSchema = {
 }
 
 const eventSchema = {
-    id: mongoose.Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
     eventMadeTime: Date,
     startTime: Date,
     endTime: Date,
     usersId: [Number],
     usersCount: Number,
     usersMax: Number,
-    activityID: Number,
+    activityId: mongoose.Schema.Types.ObjectId,
 }
 
 const activitySchema = {
-    id: mongoose.Schema.Types.ObjectId,
+    _id: mongoose.Schema.Types.ObjectId,
     name: String,
     type: String,
     slots: Number,
@@ -106,7 +106,7 @@ app.post('/signin', (req, res) => {
 })
 
 app.get('/eventsForActivities', (req, res) => {
-    Event.find( {activityID : req.body.id} , (err, events) => {
+    Event.find( {activityId: req.body.activityId.ObjectId} , (err, events) => {
         if ((err) || (events == null)) 
         {
             res.json({ events : [] })       
