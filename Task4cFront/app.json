@@ -24,7 +24,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.Task4.Task4c"
+    },
+    "android": {
+      "package": "com.Task4.Task4c"
     }
   }
 }

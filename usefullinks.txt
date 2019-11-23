@@ -1,1 +1,12 @@
+Before you run project read this:
 https://stackoverflow.com/questions/58760712/how-to-fix-metro-bundler-process-exited-with-code-1/58760917#58760917?newreg=a204fa6522294329aaa67755f7ad530c
+
+NPM global fix? 
+https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally
+
+Navigation:
+https://snack.expo.io/?platform=android&name=Moving%20between%20screens%20·%20React%20Navigation&dependencies=react-navigation%40%5E4.0.10%2Creact-navigation-tabs%40%5E2.5.6%2Creact-navigation-stack%40%5E1.10.3%2Creact-navigation-drawer%40%5E2.3.3&sourceUrl=https%3A%2F%2Freactnavigation.org%2Fexamples%2F4.x%2Fgo-back.js
+https://reactnavigation.org/docs/en/hello-react-navigation.html
+
+everything:
+https://facebook.github.io/react-native/docs/
