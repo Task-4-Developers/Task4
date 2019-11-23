@@ -62,26 +62,30 @@ app.post('/login', (req, res) => {
     })
 })
 
+
+var promise1 = new Promise((resolve, reject) => { resolve('foo') });
+
 app.get('/activities', (req, res) => {
-    User.findOne({ login: req.body.login }, (err, user) => {
+    User.findOne({ login: req.body.login }, async (err, user) => {
         if ((err) || (user == null)) res.json({ succesful: false })
         else {
 
-            let activityList = [];
-            user.organizations.forEach(org => {
+            let activityList = []
 
-                //res.send(org);
 
-                Activity.find({ organization: org }, (err, act) => {
 
+
+            for (let org in user.organizations) {
+
+                await Activity.find({ organization: user.organizations[org] }, (err, act) => {
                     activityList.push(act);
-                    res.json(activityList)
+
                 })
+            }
+            res.json(activityList)
 
-            });
-
-            //res.json(activityList)
         }
+
     })
 
 
