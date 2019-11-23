@@ -6,12 +6,14 @@ import {createStackNavigator} from 'react-navigation-stack'
 import LoginScreen from './screens/LoginScreen';
 import MainScreen from './screens/MainScreen';
 import EventScreen from './screens/EventScreen';
+import QRScreen from './screens/QRScreen';
 
 const RootStack = createStackNavigator(
   {
     Login: {screen: LoginScreen},
     Main: {screen: MainScreen},
-    Event: {screen: EventScreen}
+    Event: {screen: EventScreen},
+    QrCode: {screen: QRScreen}
   },
   {
     initialRouteName: "Login",
