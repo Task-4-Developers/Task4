@@ -2,49 +2,55 @@ import React, { useState, Component } from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
 
 import Layout from "./Layout";
+import Event from "../components/Event";
 
-const numberOfActivities = 6;
-var allActivities = [];
-for (i = 0; i < numberOfActivities; i++) {
-  allActivities.push(i)
-}
 
-function MainScreen(props) {
-  const [outputText, setOutputText] = useState("Eventy czy cos");
+eventsForActivity =[
+  {
+    startTime: "11:20",
+    randomStatistics: "Go there now mate",
+  },
+  {
+    startTime: "03:20",
+    randomStatistics: "damn man that too early",
+  }
+]
+
+allEvents =[
+  {
+    id: 0,
+    events: eventsForActivity,
+  },
+  {
+    id: 1,
+    events: [],
+  },
+]
+
+
+function EventScreen(props) {
+  var activityId=props.navigation.state.params.activityId;
+  if (allEvents.find(x =>x.id===activityId) !==undefined)
   return (
     <Layout>
-      <ScrollView style={styles.singleRowScrollView}>
-        {allActivities.map((activity) =>
-          <View style={styles.singleRowView}>
-            <TouchableOpacity style={styles.singleActivity} onPress={() => props.navigation.goBack()}>
-              <Image style={styles.singleActivity} source={require("../assets/images/piesa.png")} />
-            </TouchableOpacity>
-          </View>
-        )}
+      <ScrollView style={styles.scrollViewStyle}>
+        {allEvents[activityId].events.map(event => (
+            <Event event={event} whereToGo="" onTouchFunction={props.navigation.navigate} />
+        ))}
       </ScrollView>
+    </Layout>
+  );
+  return (
+    <Layout>
+      <Text> No event found </Text>
     </Layout>
   );
 }
 
 const styles = StyleSheet.create({
-  singleRowScrollView: {
+  scrollViewStyle: {
     // flexGrow: 2,
-  },
-  singleRowView: {
-    flexDirection: 'row',
-    justifyContent: "space-between",
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  singleActivity: {
-    flex: 1,
-    width: 100,
-    height: 100,
-    textAlign: "center",    // to koniecznie potem wyjebac
-    textAlignVertical: "center",
-    // resizeMode: "stretch", //doesn't work
-    padding: 2,
   },
 });
 
-export default MainScreen;
+export default EventScreen;

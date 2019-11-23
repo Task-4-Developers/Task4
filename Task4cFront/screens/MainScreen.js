@@ -14,10 +14,6 @@ function chunk(arr, len) {
   }
   return chunks;
 }
-
-
-// const allActivities = Array.from({ length: 9 }, (el, i) => ({ id: i, imageUrl: require("../assets/images/" + "morda"
-// + ".jpg") }))
 const activitiesFromDB= [
   {
     id: 0,
@@ -45,7 +41,6 @@ const activitiesFromDB= [
     randomStatistics: "crazy funk",
   }, 
 ] 
-
 
 const allActivities = [
   {
@@ -75,21 +70,18 @@ const allActivities = [
   },
 ]
 
-var adres=""; 
-newAllActivities= activitiesFromDB;
-for (var i=0;i<newAllActivities.length;i++){
-  console.log("../assets/images/"+newAllActivities[i].type) 
+for (var i=0;i<activitiesFromDB.length;i++){
+  // console.log("../assets/images/"+activitiesFromDB[i].type) 
   // import ("../assets/images/"+activitiesFromDB[i].type).then((loadedImageUrl) => {
   //   newAllActivities[i].imageUrl=loadedImageUrl;
   // });
   // newAllActivities[i].imageUrl=require("../assets/images/");
-  delete newAllActivities[i].type;
+  delete activitiesFromDB[i].type;
 } 
-// var chunkedActivities = chunk(newAllActivities, 2) // [[{ }, { }], [{ }, { }]]
+// var chunkedActivities = chunk(activitiesFromDB, 2) // [[{ }, { }], [{ }, { }]]
 
-const chunkedActivities = chunk(allActivities, 2) // [[{ }, { }], [{ }, { }]]
+var chunkedActivities = chunk(allActivities, 2) // [[{ }, { }], [{ }, { }]]
 function MainScreen(props) {
-  const [outputText, setOutputText] = useState("It's a new world");
   return (
     <Layout>
       <ScrollView style={styles.scrollView}>
@@ -98,7 +90,7 @@ function MainScreen(props) {
             <Activity activity={row[0]} whereToGo="Event" onTouchFunction={props.navigation.navigate} />
             {row.length === 1
               ? <View style={styles.singleActivity}/>
-              : <Activity activity={row[1]} onTouchFunction={props.navigation.goBack} />
+              : <Activity activity={row[1]} whereToGo="Event" onTouchFunction={props.navigation.navigate} />
             }
           </View>
         ))}
