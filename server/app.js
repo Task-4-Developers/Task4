@@ -15,7 +15,7 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0-umm0g.mongodb.net/Task4", {
 
 
 const userSchema = {
-    _id: mongoose.Schema.Types.ObjectId,
+    //id: Number,
     login: String,
     password: String,
     organizations: [String],
@@ -23,7 +23,7 @@ const userSchema = {
 }
 
 const eventSchema = {
-    _id: mongoose.Schema.Types.ObjectId,
+    //_id: mongoose.Schema.Types.ObjectId,
     eventMadeTime: Number,
     startTime: Number,
     endTime: Number,
@@ -34,7 +34,7 @@ const eventSchema = {
 }
 
 const activitySchema = {
-    _id: mongoose.Schema.Types.ObjectId,
+    //_id: mongoose.Schema.Types.ObjectId,
     name: String,
     type: String,
     slots: Number,
@@ -133,26 +133,54 @@ app.post('/events', (req, res) => {
 
     //res.json({ xd: User.findOne({ login: "Mihau" }).lastFetchTime })
 
+    //console.log(User.findOne({ login: req.body.login })._id)
+    //res.json(User.findOne({ login: req.body.login })._id)
 
-    Event.findOne({ startTime: { $gt: req.body.startTime } }, (err, eve) => {
+    Event.findOne({ startTime: { $gte: req.body.startTime } }, async (err, eve) => {
         if (err) res.json({ succesful: false });
 
         if (eve == null) {
 
 
-            // var xd = User.findOne({ login: req.body.login })
+            // User.findOne({ login: req.body.login }, (err, ussid) => {
 
-            //console.log(xd.password);
+            //     Activity.findOne({ _id: req.body._id }, (err, actt) => {
+            //         const event = new Event({
+            //             eventMadeTime: Date.now(),
+            //             startTime: req.body.startTime,
+            //             endTime: req.body.endTime,
+            //             usersId: [ussid],
+            //             usersCount: 1,
+            //             usersMax: actt.slots,
+            //             activityId: req.body._id.ObjectId
+            //         });
+
+            //         event.save();
+            //         res.json({ succesful: true });
+            //         console.log(event)
+
+            //     })
+
+            // })
+
+            var xd = User.findOne({ login: req.body.login })
+
+            console.log(xd)
 
             const event = new Event({
                 eventMadeTime: Date.now(),
                 startTime: req.body.startTime,
                 endTime: req.body.endTime,
-                //usersId: [XDDD],
+                usersId: [await User.findOne({ login: req.body.login }).id],
                 usersCount: 1,
-                //usersMax: Activity.findOne({ _id: req.body._id.ObjectId }).slots,
+                usersMax: await Activity.findOne({ id: req.body._id }).slots,
                 activityId: req.body._id.ObjectId
             });
+
+            // Activity.findOne({ id: req.body._id }, (err, act) => {
+            //     if (err) res.json({ succesful: false });
+            //     event.usersCount = act.slots
+            // })
 
             event.save();
             res.json({ succesful: true });
@@ -168,12 +196,12 @@ app.post('/events', (req, res) => {
 
 
 
-// app.get('/dodaj', (req, res) => {
-//     const user = new User({ login: 'marek', password: 'dupa1', lastFetchTime: Date.now() })
-//     user.save()
-//     res.send("dodano")
-//     console.log("dodano :>")
-// })
+app.get('/dodaj', (req, res) => {
+    const user = new User({ login: 'marek13', password: 'dupa2', lastFetchTime: Date.now() })
+    user.save()
+    res.send("dodano")
+    console.log("dodano :>")
+})
 
 app.get('/', (req, res) =>
 
