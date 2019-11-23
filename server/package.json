@@ -15,8 +15,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
   "engine": {
   "node": "12.13.1"
+  },
+  
+  "repositiory": {
+  "type": "git",
+  "url": "https://github.com/Task-4-Developers/Task4.git"
+  
+  
   }
 }
