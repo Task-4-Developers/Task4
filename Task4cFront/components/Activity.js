@@ -5,13 +5,13 @@ import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } f
 function Activity(props) {
     if (props.activity.id == -1) {
         return (
-            <View style={styles.singleActivity}/>
+            <View style={styles.singleActivity} />
         )
     }
-
     // if whereToGo ===null it onTouchFunction should be goBack
     return (
-        <TouchableOpacity style={styles.singleActivity} onPress={() => props.onTouchFunction(props.whereToGo)}>
+        <TouchableOpacity key={props.activity.id} style={styles.singleActivity}
+            onPress={() => props.onTouchFunction(props.whereToGo, { activityId: props.activity.id, })}>
             <Image style={styles.singleActivityImage} source={props.activity.imageUrl} />
             <Text>This is {props.activity.id} </Text>
             <Text>It has: {props.activity.randomStatistics} </Text>
@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: "center",    // to koniecznie potem wyjebac
         textAlignVertical: "center",
-        flexDirection:"column",
+        flexDirection: "column",
         // resizeMode: "stretch", //doesn't work
-        padding: 2,
+        padding: 4,
     },
     singleActivityImage: {
         flex: 1,
