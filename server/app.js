@@ -19,14 +19,14 @@ const userSchema = {
     login: String,
     password: String,
     organizations: [String],
-    lastFetchTime: Date
+    lastFetchTime: Number
 }
 
 const eventSchema = {
     _id: mongoose.Schema.Types.ObjectId,
-    eventMadeTime: Date,
-    startTime: Date,
-    endTime: Date,
+    eventMadeTime: Number,
+    startTime: Number,
+    endTime: Number,
     usersId: [Number],
     usersCount: Number,
     usersMax: Number,
@@ -63,8 +63,6 @@ app.post('/login', (req, res) => {
 })
 
 
-var promise1 = new Promise((resolve, reject) => { resolve('foo') });
-
 app.get('/activities', (req, res) => {
     User.findOne({ login: req.body.login }, async (err, user) => {
         if ((err) || (user == null)) res.json({ succesful: false })
@@ -99,7 +97,12 @@ app.get('/activities', (req, res) => {
 app.post('/signin', (req, res) => {
     User.findOne({ login: req.body.login }, (err, user) => {
         if ((err) || (user == null)) {
-            const user = new User({ login: req.body.login, password: req.body.password, organizations: req.body.organizations, lastFetchTime: Date.now() })
+            const user = new User({
+                login: req.body.login,
+                password: req.body.password,
+                organizations: req.body.organizations,
+                lastFetchTime: Date.now()
+            })
             user.save()
             res.json({ accepted: true })
         }
@@ -110,19 +113,56 @@ app.post('/signin', (req, res) => {
 })
 
 app.get('/eventsForActivities', (req, res) => {
-    Event.find( {activityId: req.body.activityId.ObjectId} , (err, events) => {
-        if ((err) || (events == null)) 
-        {
-            res.json({ events : [] })       
-        } 
-        else{
-            res.json({ events : events })     
+    Event.find({ activityId: req.body.activityId.ObjectId }, (err, events) => {
+        if ((err) || (events == null)) {
+            res.json({ events: [] })
+        }
+        else {
+            res.json({ events: events })
         }
     })
 })
 
 
 
+
+app.post('/events', (req, res) => {
+
+    //res.send(Date(req.body.startTime.$date.$numberLong));
+    // res.json({ dataa: Date.now() })
+
+    //res.json({ xd: User.findOne({ login: "Mihau" }).lastFetchTime })
+
+
+    Event.findOne({ startTime: { $gt: req.body.startTime } }, (err, eve) => {
+        if (err) res.json({ succesful: false });
+
+        if (eve == null) {
+
+
+            // var xd = User.findOne({ login: req.body.login })
+
+            //console.log(xd.password);
+
+            const event = new Event({
+                eventMadeTime: Date.now(),
+                startTime: req.body.startTime,
+                endTime: req.body.endTime,
+                //usersId: [XDDD],
+                usersCount: 1,
+                //usersMax: Activity.findOne({ _id: req.body._id.ObjectId }).slots,
+                activityId: req.body._id.ObjectId
+            });
+
+            event.save();
+            res.json({ succesful: true });
+            console.log(event)
+        }
+        else res.json({ succesful: false });
+
+    })
+
+})
 
 
 
