@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
+import Layout from './Layout';
+
 function LoginScreen(props) {
     return (
-      <View style={styles.everything}>
-        <View style={styles.topView}>
-          <Text>Just do it</Text>
-          <Button title="it's a new life" onPress={
+      <Layout>
+        <Text style={styles.textStyle}>Just do it</Text>
+        <Button style={styles.buttonStyle} title="it's a new life" onPress={
             () => props.navigation.navigate('Main')
             } />
-        </View>
-      </View>
+      </Layout>
     );
 }
 
 const styles = StyleSheet.create({
-  everything: {
-    padding: 50,
-    flexDirection: 'row',
-  },
-  topView: {
+  textStyle: {
     flex: 1,
-    backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
+    textAlign: "center",
+    textAlignVertical: "center",
+  },
+  buttonStyle: {
+    flex: 1,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 

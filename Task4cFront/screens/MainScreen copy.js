@@ -6,9 +6,7 @@ import Layout from "./Layout";
 const numberOfActivities = 6;
 var allActivities = [];
 for (i = 0; i < numberOfActivities; i++) {
-  i%2
-  ? allActivities.push({id: i,imageUrl: require("../assets/images/" + "morda" +".jpg")})
-  : allActivities.push({id: i,imageUrl: require("../assets/images/" + "piesa" +".png")})
+  allActivities.push({id: i,imageUrl: require("../assets/images/" + "morda" +".jpg")})
 }
 var allActivitiesTransformed = [];
 // if (len(allActivities)%2 ==1){
@@ -26,15 +24,15 @@ function MainScreen(props) {
   return (
     <Layout>
       <ScrollView style={styles.singleRowScrollView}>
-        {allActivitiesTransformed.map((activity) =>
+        {allActivities.map((activity) =>
           <View style={styles.singleRowView}>
             <TouchableOpacity style={styles.singleActivity} onPress={() => props.navigation.navigate("Event")}>
-              <Image style={styles.singleActivity} source={activity.imageUrl1} />
+              <Image style={styles.singleActivity} source={activity.imageUrl} />
               {/* <Image style={styles.singleActivity} source={require("../assets/images/morda.jpg")} /> */}
             </TouchableOpacity>
-            <Text style={styles.singleActivity}>{activity.id1}</Text> 
+            <Text style={styles.singleActivity}>{activity.id}</Text> 
             <TouchableOpacity style={styles.singleActivity} onPress={() => props.navigation.goBack()}>
-              <Image style={styles.singleActivity} source={activity.imageUrl2} />
+              <Image style={styles.singleActivity} source={activity.imageUrl} />
             </TouchableOpacity>
           </View>
         )}
