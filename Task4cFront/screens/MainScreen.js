@@ -106,6 +106,7 @@ function MainScreen(props) {
           </View>
         ))}
       </ScrollView>
+      <Button title="QR Code Scanner" onPress={() => props.navigation.navigate('QrCode')}/>
     </Layout>
   );
 }
