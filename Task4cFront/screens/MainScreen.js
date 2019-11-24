@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } f
 import Layout from "./Layout";
 import Activity from "../components/Activity";
 
+const login = "admin";
+
 
 function chunk(arr, len) {
   var chunks = [],
@@ -14,6 +16,26 @@ function chunk(arr, len) {
   }
   return chunks;
 }
+
+// async fetchActivities() {
+//   await fetch("https://task44.herokuapp.com/login", {
+//     method: "POST",
+//     body: JSON.stringify({
+//       login: login
+//     })
+//   }).then( (response) => response.json())
+//   .then((responseJson) => {
+//     // setValid(responseJson.successful);
+//     // setError(!(responseJson.successful));
+//     if(responseJson) {
+//       //RETURN LOGIN TO MAIN
+//       props.navigation.navigate('Main');
+//     }
+//     else (setError(!(responseJson.successful)));
+//   });
+// }
+
+// let activitiesFromDB= []  
 
 const allActivities = [
   {
@@ -44,13 +66,33 @@ const allActivities = [
     id: 0,
     nazwa: "Papieros",
     imageUrl: require("../assets/images/" + "fajki" + ".png"),
-    randomStatistics: "crazy funk",
+    randomStatistics: "6",
   },
 ]
 
 
 var chunkedActivities = chunk(allActivities, 2) // [[{ }, { }], [{ }, { }]]
+
+
+
 function MainScreen(props) {
+  const [activites, setActivites] = useState([]);
+
+  setInterval(() =>{
+    fetch("https://task44.herokuapp.com/activities", {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify({
+        login: login,
+      })
+    }).then( (response) => response.json())
+    .then((responseJson) => {
+      setActivities(responseJson.activities)
+    })
+  }, 5000);
+
   return (
     <Layout>
       <ScrollView style={styles.scrollView}>
@@ -83,8 +125,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 100,
     height: 100,
-    textAlign: "center",    // to koniecznie potem wyjebac
-    textAlignVertical: "center",
     // resizeMode: "stretch", //doesn't work
     padding: 2,
   },
