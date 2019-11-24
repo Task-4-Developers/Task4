@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "braces": "^3.0.2",
     "expo": "^35.0.0",
     "expo-barcode-scanner": "~7.0.0",
     "mem": "^6.0.0",
