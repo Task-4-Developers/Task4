@@ -1,14 +1,13 @@
 const express = require('express');
 const bodyparser = require('body-parser')
+const mongoose = require("mongoose");
+const fs = require('fs')
 
 
 const app = express();
 
-
-const mongoose = require("mongoose");
-
-//const mongooseValidator = require('mongoose-unique-validator')
-
+app.use(express.static("public"));
+app.set('view engine', 'ejs');
 app.use(bodyparser.json());
 
 mongoose.connect("mongodb+srv://admin:admin@cluster0-umm0g.mongodb.net/Task4", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -39,7 +38,13 @@ const activitySchema = {
     type: String,
     slots: Number,
     takenSlots: Number,
-    organization: String
+    organization: String,
+    img:
+    {
+        //data: Buffer,
+        path: String,
+        contentType: String
+    }
 }
 
 
@@ -176,10 +181,57 @@ app.post('/join', async (req, res) => {
 })
 
 
-app.get('/', (req, res) =>
+app.post('/addActivity', (req, res) => {
+
+    let act = new Activity({
+        name: req.body.name,
+        type: req.body.type,
+        slots: req.body.slots,
+        takenSlots: req.body.takenSlots,
+        organization: req.body.organization,
+        img:
+        {
+            //data: fs.readFileSync(req.body.path),
+            path: req.body.path,
+            contentType: 'image/png'
+        }
+    })
+    act.save();
+    res.json({ succesful: true });
+
+})
+
+app.get('/viewActivity', (req, res) => {
+
+
+    Activity.findOne({ _id: req.query.id }, (err, act) => {
+
+
+
+        //res.set('Content-Type', act.img.contentType);
+        //res.send(fs.readFileSync(act.img.path));
+        //res.send(act.img.data)
+
+
+        res.render('index', {
+            name: act.name,
+            type: act.type,
+            slots: act.slots,
+            organization: act.organization,
+            path: "../" + act.img.path
+        })
+
+
+    })
+
+
+})
+
+
+app.get('/', (req, res) => {
 
     res.send("helloword00")
-)
+})
 
 
 app.use(function (req, res, next) {
