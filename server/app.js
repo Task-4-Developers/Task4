@@ -15,7 +15,6 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0-umm0g.mongodb.net/Task4", {
 
 
 const userSchema = {
-    //id: Number,
     login: String,
     password: String,
     organizations: [String],
@@ -23,18 +22,16 @@ const userSchema = {
 }
 
 const eventSchema = {
-    //_id: mongoose.Schema.Types.ObjectId,
     eventMadeTime: Number,
     startTime: Number,
     endTime: Number,
-    usersId: [mongoose.Schema.Types.ObjectId],
+    users: [String],
     usersCount: Number,
     usersMax: Number,
     activityId: mongoose.Schema.Types.ObjectId,
 }
 
 const activitySchema = {
-    //_id: mongoose.Schema.Types.ObjectId,
     name: String,
     type: String,
     slots: Number,
@@ -42,8 +39,7 @@ const activitySchema = {
     organization: String,
     img:
     {
-        //data: Buffer,
-        path: String,
+        name: String,
         contentType: String
     }
 }
@@ -57,20 +53,20 @@ const Activity = mongoose.model("Activity", activitySchema);
 app.post('/login', (req, res) => {
 
     User.findOne({ login: req.body.login }, (err, user) => {
-        if ((err) || (user == null)) res.json({ accepted: false })
+        if ((err) || (user == null)) res.json({ succesful: false })
         else {
             if (user.password == req.body.password) {
-                res.json({ accepted: true })
+                res.json({ succesful: true })
             }
             else
-                res.json({ accepted: false })
+                res.json({ succesful: false })
         }
     })
 })
 
 app.post('/signin', (req, res) => {
     User.findOne({ login: req.body.login }, (err, user) => {
-        if ((err) || (user == null)) {
+        if ((user == null)) {
             const user = new User({
                 login: req.body.login,
                 password: req.body.password,
@@ -78,17 +74,17 @@ app.post('/signin', (req, res) => {
                 lastFetchTime: Date.now()
             })
             user.save()
-            res.json({ accepted: true })
+            res.json({ succesful: true })
         }
         else {
-            res.json({ accepted: false })
+            res.json({ succesful: false })
         }
     })
 })
 
-app.get('/activities', (req, res) => {
+app.get('/getActivities', (req, res) => {
     User.findOne({ login: req.body.login }, async (err, user) => {
-        if ((err) || (user == null)) res.json({ succesful: false })
+        if ((err) || (user == null)) res.json({ activities: [] })
         else {
 
             let activityList = []
@@ -98,6 +94,22 @@ app.get('/activities', (req, res) => {
                 await Activity.find({ organization: user.organizations[org] }, (err, act) => {
                     activityList.push(act);
 
+                    // activityList.push(
+                    // {
+                    //     name: act.name,
+                    //     type: act.type,
+                    //     slots: act.slots,
+                    //     takenSlots: act.takenSlots,
+                    //     organization: act.organization,
+                    //     img:
+                    //     {
+                    //         name: act.img.name,
+                    //         contentType: act.img.contentType,
+                    //         data: fs.readFileSync(path.join(__dirname, '/public/icons/', act.img.name))
+                    //     }
+
+                    // });
+
                 })
             }
             res.json({ activities: activityList })
@@ -105,50 +117,68 @@ app.get('/activities', (req, res) => {
     })
 })
 
-app.get('/eventsForActivities', (req, res) => {
-    Event.find({ activityId: req.body.activityId.ObjectId }, (err, events) => {
-        if ((err) || (events == null)) {
-            res.json({ events: [] })
+app.get('/getEventsForActivities', (req, res) => {
+    Event.find({ activityId: req.body.activityId.ObjectId }, (err, eve) => {
+        if ((err) || (eve == null)) {
+            res.json({ eve: [] })
         }
         else {
-            res.json({ events: events })
+            res.json({ events: eve })
         }
     })
 })
 
-app.post('/events', (req, res) => {
+app.post('/addEvent', (req, res) => {
 
     Event.findOne({ startTime: { $gte: req.body.startTime }, endTime: { $lte: req.body.endTime } }, (err, eve) => {
-        if (err) res.json({ succesful: "false" });
+        if (err) res.json({ succesful: false });
 
         if (eve == null) {
 
             Activity.findOne({ _id: req.body.activityId.ObjectId }, (err, act) => {
                 if (err) res.json({ succesful: false });
 
-                User.findOne({ login: req.body.login }, (err, user) => {
-                    console.log(user._id);
-                    const event = new Event({
+                // User.findOne({ login: req.body.login }, (err, user) => {
+                //     //console.log(user._id);
+                //     const event = new Event(
+                //     {
+                //         eventMadeTime: Date.now(),
+                //         startTime: req.body.startTime,
+                //         endTime: req.body.endTime,
+                //         usersId: [user._id],
+                //         usersCount: 1,
+                //         usersMax: act.slots,
+                //         activityId: req.body.activityId.ObjectId
+
+                //     });
+
+                //     event.save();
+                //     //console.log(event)
+                //     res.json({ succesful: true });
+                // });
+
+                const event = new Event(
+                    {
                         eventMadeTime: Date.now(),
                         startTime: req.body.startTime,
                         endTime: req.body.endTime,
-                        usersId: [user._id],
+                        users: [req.body.login],
                         usersCount: 1,
                         usersMax: act.slots,
                         activityId: req.body.activityId.ObjectId
 
                     });
-                    event.save();
-                    console.log(event)
-                    res.json({ succesful: true });
-                });
+
+                event.save();
+                //console.log(event)
+                res.json({ succesful: true });
             })
         }
         else res.json({ succesful: false });
     })
 })
 
-app.get('/updates', (req, res) => {
+app.get('/fetchNewEvents', (req, res) => {
 
     User.findOne({ login: req.body.login }, (err, user) => {
         Event.find({ eventMadeTime: { $gt: user.lastFetchTime } }, (err, eve) => {
@@ -163,17 +193,22 @@ app.get('/updates', (req, res) => {
 
 })
 
-app.post('/join', async (req, res) => {
+app.post('/joinEvent', async (req, res) => {
 
     Event.findOne({ _id: req.body.eventId.ObjectId }, async (err, eve) => {
+        if (eve == null) res.json({ successful: false })
 
-        var xd = await Event.updateOne({ _id: req.body.eventId.ObjectId, usersCount: { $lt: eve.usersMax } }, { $inc: { usersCount: 1 }, $push: { usersId: req.body.userId.ObjectId } })
+        await Event.updateOne({ _id: req.body.eventId.ObjectId, usersCount: { $lt: eve.usersMax } }, { $inc: { usersCount: 1 }, $push: { users: req.body.login } }, (err, eve1) => {
+
+            if (eve1 == null) res.json({ successful: false })
+            else res.json({ succesful: true })
+        })
     })
-    res.json({ succesful: true })
+    //res.json({ succesful: true })
 })
 
 
-///--------------------------- HTML shit
+///--------------------------- HTML shit only for testing
 
 
 app.post('/addActivity', (req, res) => {
@@ -212,12 +247,23 @@ app.get('/viewActivity', (req, res) => {
             type: act.type,
             slots: act.slots,
             organization: act.organization,
-            path: path.join(__dirname, '/public', act.img.path),
-            imgpath: path.join(__dirname, '/public', act.img.path)
+            path: path.join(__dirname, '/public/icons/', act.img.name),
+            imgpath: path.join(__dirname, '/public/icons/', act.img.name)
         })
     })
 })
 
+
+app.get('/viewIMGfromfile', (req, res) => {
+    Activity.findOne({ _id: req.query.id }, (err, act) => {
+
+        res.set('Content-Type', act.img.contentType);
+        res.send(fs.readFileSync(path.join(__dirname, '/public/icons/', act.img.name)));
+        //res.send(act.img.data)
+    })
+})
+
+///-----------------------------------------------------------------
 
 app.get('/', (req, res) => {
 
