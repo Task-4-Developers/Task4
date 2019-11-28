@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyparser = require('body-parser')
 const mongoose = require("mongoose");
+const path = require('path');
 const fs = require('fs')
 
 
@@ -67,27 +68,6 @@ app.post('/login', (req, res) => {
     })
 })
 
-
-app.get('/activities', (req, res) => {
-    User.findOne({ login: req.body.login }, async (err, user) => {
-        if ((err) || (user == null)) res.json({ succesful: false })
-        else {
-
-            let activityList = []
-
-            for (let org in user.organizations) {
-
-                await Activity.find({ organization: user.organizations[org] }, (err, act) => {
-                    activityList.push(act);
-
-                })
-            }
-            res.json(activityList)
-        }
-    })
-})
-
-
 app.post('/signin', (req, res) => {
     User.findOne({ login: req.body.login }, (err, user) => {
         if ((err) || (user == null)) {
@@ -106,6 +86,25 @@ app.post('/signin', (req, res) => {
     })
 })
 
+app.get('/activities', (req, res) => {
+    User.findOne({ login: req.body.login }, async (err, user) => {
+        if ((err) || (user == null)) res.json({ succesful: false })
+        else {
+
+            let activityList = []
+
+            for (let org in user.organizations) {
+
+                await Activity.find({ organization: user.organizations[org] }, (err, act) => {
+                    activityList.push(act);
+
+                })
+            }
+            res.json({ activities: activityList })
+        }
+    })
+})
+
 app.get('/eventsForActivities', (req, res) => {
     Event.find({ activityId: req.body.activityId.ObjectId }, (err, events) => {
         if ((err) || (events == null)) {
@@ -116,9 +115,6 @@ app.get('/eventsForActivities', (req, res) => {
         }
     })
 })
-
-
-
 
 app.post('/events', (req, res) => {
 
@@ -150,7 +146,6 @@ app.post('/events', (req, res) => {
         }
         else res.json({ succesful: false });
     })
-
 })
 
 app.get('/updates', (req, res) => {
@@ -163,13 +158,10 @@ app.get('/updates', (req, res) => {
             else {
                 res.json({ events: eve })
             }
-
         })
     })
 
 })
-
-
 
 app.post('/join', async (req, res) => {
 
@@ -179,6 +171,9 @@ app.post('/join', async (req, res) => {
     })
     res.json({ succesful: true })
 })
+
+
+///--------------------------- HTML shit
 
 
 app.post('/addActivity', (req, res) => {
@@ -198,7 +193,6 @@ app.post('/addActivity', (req, res) => {
     })
     act.save();
     res.json({ succesful: true });
-
 })
 
 app.get('/viewActivity', (req, res) => {
@@ -218,13 +212,9 @@ app.get('/viewActivity', (req, res) => {
             type: act.type,
             slots: act.slots,
             organization: act.organization,
-            path: "../" + act.img.path
+            path: path.join(__dirname, '/public', act.img.path)
         })
-
-
     })
-
-
 })
 
 
