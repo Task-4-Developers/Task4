@@ -212,7 +212,8 @@ app.get('/viewActivity', (req, res) => {
             type: act.type,
             slots: act.slots,
             organization: act.organization,
-            path: path.join(__dirname, '/public', act.img.path)
+            path: path.join(__dirname, '/public', act.img.path),
+            imgpath: path.join(__dirname, '/public', act.img.path)
         })
     })
 })
